@@ -5,12 +5,34 @@
     <script src="https://ajax.googleapis.com/ajax/libs/threejs/r76/three.min.js"></script>
     <!-- Import angular.js library -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
-
+    <!-- Import Font -->
+    <link href='http://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
 
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Space Invaders</title>
+
+    <!-- Set tab Icon -->
+    <link rel="icon" href="/assets/ICON.ico">
+    <link rel="stylesheet" type="text/css" href="styles/myStyle.css">
 </head>
 <body>
-
+    <div id="WebGLCanvas"></div>
+    <div id="TITLE">Space Invaders</div>
+    <div>
+        <div id="SCORE">
+            SCORE:<span id="playerScore">0</span><br>
+            HIGHSCORE:<span id="highScore">0</span>
+        </div>
+        <div id="HEALTH">
+            HEALTH:<span id="hp">10</span>
+        </div>
+        <div id="LEVEL">
+            LEVEL:<span id="currentLevel">1</span>
+        </div>
+    </div>
+    <!-- Performance Stats -->
+    <div ng-controller="StatusCtrl" id="STATUS">
+        FPS:{{ fps }}<br>
+    </div>
 </body>
 </html>
