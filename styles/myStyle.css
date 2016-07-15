@@ -43,6 +43,23 @@ div div {
     text-align: right;
 }
 
+#HELP {
+    position: fixed;
+    top: 12.5vw;
+    left: 0vw;
+    text-align: left;
+}
+
+div ul div {
+    position: fixed;
+    top: 12vw;
+    left: 0vw;
+}
+
+div ul li {
+    font-size: 1vw;
+}
+
 #STATUS {
     position: fixed;
     bottom: 0vw;
