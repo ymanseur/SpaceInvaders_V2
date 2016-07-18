@@ -6,21 +6,21 @@ body {
     line-height: 125%;
 }
 
-div div {
+div p {
     position: fixed;
-    top: 5.25vw;
+    top: 4vw;
     left: 0.5vw;
     right: 0.5vw;
     font-size: 1.5vw;
 }
 
-#WebGLCanvas {
+#webgl-canvas {
     position: fixed;
     top: 0vw;
     left: 0vw;
 }
 
-#TITLE {
+#title {
     position: fixed;
     top: 2vw;
     left: 0vw;
@@ -30,40 +30,56 @@ div div {
     margin: 0.25vw;
 }
 
-#SCORE {
-    text-align: left;
-    line-height: 140%;
-}
-
-#HEALTH {
+#startGame{
+    position: fixed;
+    top: 13vw;
+    left: 0.5vw;
+    right: 0.5vw;
+    font-size: 3vw;
     text-align: center;
+    visibility: visible;
 }
 
-#LEVEL {
-    text-align: right;
-}
-
-#HELP {
-    position: fixed;
-    top: 12.5vw;
-    left: 0vw;
-    text-align: left;
-}
-
-div ul div {
-    position: fixed;
-    top: 12vw;
-    left: 0vw;
-}
-
-div ul li {
-    font-size: 1vw;
-}
-
-#STATUS {
-    position: fixed;
-    bottom: 0vw;
+#instructions {
+    visibility: visible;
+    position:fixed;
+    bottom: 15.75vw;
     left: 0.5vw;
     text-align: left;
+}
+
+div ul {
     font-size: 0.75vw;
+    margin: 0.5vw;
+    padding: 0.5vw;
+}
+
+.bigger {
+    font-size: 1.5vw;
+}
+
+#status {
+    position: fixed;
+    bottom: 0.5vw;
+    left: 0.5vw;
+    text-align: left;
+    font-size: 0.5vw;
+}
+
+/* To make the "press enter" text blink */
+@keyframes blink {
+    40% {
+        opacity: 0.0;
+    }
+}
+
+@-webkit-keyframes blink {
+    40%{
+        opacity: 0.0;
+    }
+}
+
+.blink {
+    animation: blink 1s step-start 0s infinite;
+    -webkit-animation: blink 1s step-start 0s infinite;
 }

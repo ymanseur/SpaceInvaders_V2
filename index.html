@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <!-- Import three.js library -->
     <script src="https://ajax.googleapis.com/ajax/libs/threejs/r76/three.min.js"></script>
-    <!-- Import angular.js library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
     <!-- Import Font -->
     <link href='http://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
 
@@ -13,36 +13,58 @@
 
     <!-- Set tab Icon -->
     <link rel="icon" href="/assets/ICON.ico">
+
     <link rel="stylesheet" type="text/css" href="styles/myStyle.css">
 </head>
+
 <body>
-    <div id="WebGLCanvas"></div>
-    <div id="TITLE">Space Invaders</div>
+
+    <div id="webgl-canvas"></div>
+
+    <p id="title">Space Invaders</p>
+
     <div>
-        <div id="SCORE">
+
+        <p style="text-align: left; line-height: 140%">
             SCORE:<span id="playerScore">0</span><br>
             HIGHSCORE:<span id="highScore">0</span>
-        </div>
-        <div id="HEALTH">
-            HEALTH:<span id="hp">10</span>
-        </div>
-        <div id="LEVEL">
+        </p>
+
+        <p style="text-align: center">
+            HEALTH:<span id="health">10</span>
+        </p>
+
+        <p style="text-align: right">
             LEVEL:<span id="currentLevel">1</span>
-        </div>
+        </p>
+
     </div>
-    <div id="HELP">
+
+    <h1 id="startGame"><span class="blink">Press ENTER to Start!</span></h1>
+
+    <div id="instructions">
+        <div style="font-size: 1.5vw; line-height: 0">HOW TO PLAY</div>
         <ul>
-            <div>HOW TO PLAY</div>
-            <li>Use the arrow keys to move your spaceship around</li>
-            <li>Press the spacebar to shoot a laser</li>
-            <li>Press P to pause the game</li>
-            <li>Press Shift-N if you would like to start a new game</li>
-            <li>Press H to hide instructions</li>
+            <li>Move using <span class="bigger">&larr;</span> & <span class="bigger">&rarr;</span></li>
+            <li>Spacebar to shoot</li>
+            <li>P to pause the game</li>
+            <li>R to restart</li>
+            <li>Press I to hide instructions</li>
         </ul>
+
     </div>
+
     <!-- Performance Stats -->
-    <div ng-controller="StatusCtrl" id="STATUS">
-        FPS:{{ fps }}<br>
+    <div id="status">
+        <div id="help" style="visibility: hidden">Press I to show instructions</div>
+        FPS:<span id="fps"></span><br>
     </div>
+
+    <script src="js/backDrop.js"></script>
+    <script src="js/eventListeners.js"></script>
+    <script src="js/interface.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+
 </body>
 </html>
