@@ -1,5 +1,5 @@
 function startGame() {
     document.getElementById("startGame").style.visibility = "hidden";
-    startRendering = true;
-    minimizeInstructions();
+    game.startRendering = true;
+    UI.minimizeInstructions();
 }
