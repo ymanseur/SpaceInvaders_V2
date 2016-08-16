@@ -7,12 +7,19 @@ var backDrop = (function() {
             "assets/backDrop_Front.bmp",
             "assets/backDrop_Back.bmp"];
 
-        var skyGeometry = new THREE.BoxGeometry(1000, 1000, 1000);
+        var textureLoader = new THREE.TextureLoader();
+        var textureSides = [textureLoader.load(imageNames[0]),
+            textureLoader.load(imageNames[1]),
+            textureLoader.load(imageNames[2]),
+            textureLoader.load(imageNames[3]),
+            textureLoader.load(imageNames[4]),
+            textureLoader.load(imageNames[5])];
+        var skyGeometry = new THREE.BoxGeometry(500, 500, 500);
         var materialArray = [];
 
         for (var i = 0; i < 6; i++)
             materialArray.push(new THREE.MeshBasicMaterial({
-                map: THREE.ImageUtils.loadTexture(imageNames[i]),
+                map: textureSides[i],
                 side: THREE.BackSide
             }));
         var skyMaterial = new THREE.MeshFaceMaterial(materialArray);
