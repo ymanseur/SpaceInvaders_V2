@@ -14,7 +14,7 @@ var backDrop = (function() {
             textureLoader.load(imageNames[3]),
             textureLoader.load(imageNames[4]),
             textureLoader.load(imageNames[5])];
-        var skyGeometry = new THREE.BoxGeometry(500, 500, 500);
+        var skyGeometry = new THREE.BoxGeometry(1000, 1000, 1000);
         var materialArray = [];
 
         for (var i = 0; i < 6; i++)
