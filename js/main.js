@@ -103,6 +103,12 @@ var game = (function () {
         camera.updateProjectionMatrix();
     }
 
+    function startGame() {
+        document.getElementById("startGame").style.visibility = "hidden";
+        startRendering = true;
+        UI.minimizeInstructions();
+    }
+
     function init() {
         scene.add(camera);
         camera.position.set(0,150,150);
