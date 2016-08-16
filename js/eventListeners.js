@@ -12,7 +12,7 @@ var listeners = (function() {
     function keyIsPressed(event) {
         switch(event.keyCode){
             case 13: //Enter to start
-                startGame(); break;
+                game.startGame(); break;
             case 37: //Left
                 moveLeft=true; moveRight=false; break;
             case 39: //Right
