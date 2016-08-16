@@ -64,6 +64,7 @@ var game = (function () {
     var clock = new THREE.Clock();
     var renderer = new THREE.WebGLRenderer({antialias:true});
     var prev = 0;
+    var elapsed = 0;
     var showInstruct = true;
     var startRendering = false;
     var moveLeft = false;
@@ -78,13 +79,12 @@ var game = (function () {
         setTimeout( function() {
             requestAnimationFrame(animateScene);
         }, 1000 / 60);
-
+        console.log(startRendering);
         if(startRendering)
             renderScene();
         renderer.render(scene, camera);
         if(startRendering){
-            var fps = document.getElementById("fps");
-            fps.innerHTML = (1 / (elapsed - prev)).toFixed(2);
+            document.getElementById("fps").innerHTML = (1 / (elapsed - prev)).toFixed(2);
             prev = elapsed;
         }
 
