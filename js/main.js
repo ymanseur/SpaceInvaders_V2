@@ -122,6 +122,7 @@ var game = (function () {
         scene: scene,
         camera: camera,
         init: init,
+        startGame: startGame,
         updateCanvas: updateCanvas,
         startRendering: startRendering,
         showInstruct: showInstruct
