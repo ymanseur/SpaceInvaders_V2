@@ -78,7 +78,7 @@ var game = (function () {
     function animateScene() {
         setTimeout( function() {
             requestAnimationFrame(animateScene);
-        }, 1000 / 60);
+        }, 1000 / 30);
         console.log(startRendering);
         if(startRendering)
             renderScene();
@@ -113,7 +113,7 @@ var game = (function () {
         scene.add(camera);
         camera.position.set(0,150,150);
         camera.lookAt(scene.position);
-        backDrop.loadBackdrop();
+        //backDrop.loadBackdrop();
         listeners.addEventListeners();
         animateScene();
     }
