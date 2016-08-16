@@ -64,10 +64,6 @@ var game = (function () {
     var clock = new THREE.Clock();
     var renderer = new THREE.WebGLRenderer({antialias:true});
     var prev = 0;
-<<<<<<< 83e2ce87a795595e6731a39fb11b88b82fcb4154
-=======
-    var elapsed = 0;
->>>>>>> initial commit
     var showInstruct = true;
     var startRendering = false;
     var moveLeft = false;
