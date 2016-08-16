@@ -117,7 +117,8 @@ var game = (function () {
         camera: camera,
         init: init,
         updateCanvas: updateCanvas,
-        startRendering: startRendering
+        startRendering: startRendering,
+        showInstruct: showInstruct
     };
 })();
 

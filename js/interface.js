@@ -9,13 +9,13 @@ var UI = (function () {
     function minimizeInstructions(){
         document.getElementById("instructions").style.visibility = "hidden";
         document.getElementById("help").style.visibility = "visible";
-        showInstruct = false;
+        game.showInstruct = false;
     }
 
     function maximizeInstructions(){
         document.getElementById("instructions").style.visibility = "visible";
         document.getElementById("help").style.visibility = "hidden";
-        showInstruct = true;
+        game.showInstruct = true;
     }
 
     function pauseGame() {
