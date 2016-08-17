@@ -22,7 +22,6 @@ var game = (function () {
         setTimeout( function() {
             requestAnimationFrame(animateScene);
         }, 1000 / 30);
-        console.log(startRendering);
         if(startRendering)
             renderScene();
         renderer.render(scene, camera);

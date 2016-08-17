@@ -1,6 +1,6 @@
 var UI = (function () {
     function toggleInstructions(){
-        if(showInstruct)
+        if(game.showInstruct)
             minimizeInstructions();
         else
             maximizeInstructions();
