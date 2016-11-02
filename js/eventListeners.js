@@ -17,7 +17,7 @@ var Listeners = (function()
         switch(event.keyCode)
         {
             case 13: //Enter to start
-                game.StartGame();
+                Game.StartGame();
                 break;
             case 37: //Left
                 MainSpaceShip.MoveLeft=true;
