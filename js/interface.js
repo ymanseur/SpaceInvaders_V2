@@ -1,33 +1,37 @@
-var UI = (function () {
-    function toggleInstructions(){
-        if(game.showInstruct)
+var UI = (function ()
+{
+    function toggleInstructions()
+    {
+        if(Game.ShowInstruct)
             minimizeInstructions();
         else
             maximizeInstructions();
     }
 
-    function minimizeInstructions(){
+    function minimizeInstructions()
+    {
         document.getElementById("instructions").style.visibility = "hidden";
         document.getElementById("help").style.visibility = "visible";
-        game.showInstruct = false;
+        Game.ShowInstruct = false;
     }
 
-    function maximizeInstructions(){
+    function maximizeInstructions()
+    {
         document.getElementById("instructions").style.visibility = "visible";
         document.getElementById("help").style.visibility = "hidden";
-        game.showInstruct = true;
+        Game.ShowInstruct = true;
     }
 
     function pauseGame() {
-        if(game.startRendering)
-            game.startRendering = false;
+        if(Game.StartRendering)
+            Game.StartRendering = false;
         else
-            game.startRendering = true;
+            Game.StartRendering = true;
     }
 
     return {
-        toggleInstructions: toggleInstructions,
-        pauseGame: pauseGame,
-        minimizeInstructions: minimizeInstructions
+        ToggleInstructions: toggleInstructions,
+        PauseGame: pauseGame,
+        MinimizeInstructions: minimizeInstructions
     };
 })();

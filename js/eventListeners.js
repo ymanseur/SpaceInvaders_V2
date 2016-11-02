@@ -1,30 +1,43 @@
-var listeners = (function() {
-    function addEventListeners(){
+var Listeners = (function()
+{
+    function addEventListeners()
+    {
         window.document.addEventListener("keydown", keyIsPressed);
         window.document.addEventListener("keyup", keyIsReleased);
         window.addEventListener("resize", onWindowResize);
     }
 
-    function onWindowResize(event){
-        game.updateCanvas();
+    function onWindowResize(event)
+    {
+        Game.UpdateCanvas();
     }
 
-    function keyIsPressed(event) {
-        switch(event.keyCode){
+    function keyIsPressed(event)
+    {
+        switch(event.keyCode)
+        {
             case 13: //Enter to start
-                game.startGame(); break;
+                game.StartGame();
+                break;
             case 37: //Left
-                moveLeft=true; moveRight=false; break;
+                MainSpaceShip.MoveLeft=true;
+                MainSpaceShip.MoveRight=false;
+                break;
             case 39: //Right
-                moveRight=true; moveLeft=false; break;
+                MainSpaceShip.MoveRight=true;
+                MainSpaceShip.MoveLeft=false;
+                break;
             case 73: // I - toggle instructions
-                UI.toggleInstructions(); break;
+                UI.ToggleInstructions();
+                break;
             case 80: // P - pause game
-                UI.pauseGame(); break;
+                UI.PauseGame();
+                break;
         }
     }
 
-    function keyIsReleased(event) {
+    function keyIsReleased(event)
+    {
         switch(event.keyCode){
             case 37: //Left
                 moveLeft=false; moveRight=false; break;
@@ -34,6 +47,6 @@ var listeners = (function() {
     }
 
     return {
-        addEventListeners: addEventListeners
+        AddEventListeners: addEventListeners
     };
 })();

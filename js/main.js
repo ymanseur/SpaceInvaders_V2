@@ -1,4 +1,5 @@
-var game = (function () {
+var Game = (function ()
+{
     var width = window.innerWidth;
     var height = window.innerHeight;
     var aspectRatio = width / height;
@@ -10,33 +11,38 @@ var game = (function () {
     var elapsed = 0;
     var showInstruct = true;
     var startRendering = false;
-    var moveLeft = false;
-    var moveRight = false;
+    var laserColor = 0xFFFF00;
+    var baseSize = 1;
 
     renderer.setClearColor(0x000000);
     renderer.setSize(width, height);
 
     document.getElementById("webgl-canvas").appendChild(renderer.domElement);
 
-    function animateScene() {
-        setTimeout( function() {
+    function animateScene()
+    {
+        setTimeout( function()
+        {
             requestAnimationFrame(animateScene);
         }, 1000 / 30);
         if(startRendering)
             renderScene();
         renderer.render(scene, camera);
-        if(startRendering){
+        if(startRendering)
+        {
             document.getElementById("fps").innerHTML = (1 / (elapsed - prev)).toFixed(2);
             prev = elapsed;
         }
 
     }
 
-    function renderScene() {
+    function renderScene()
+    {
         elapsed = clock.getElapsedTime();
     }
 
-    function updateCanvas() {
+    function updateCanvas()
+    {
         width = window.innerWidth;
         height = window.innerHeight;
         aspectRatio = width/height;
@@ -45,30 +51,34 @@ var game = (function () {
         camera.updateProjectionMatrix();
     }
 
-    function startGame() {
+    function startGame()
+    {
         document.getElementById("startGame").style.visibility = "hidden";
         startRendering = true;
-        UI.minimizeInstructions();
+        UI.MinimizeInstructions();
     }
 
-    function init() {
+    function init()
+    {
         scene.add(camera);
         camera.position.set(0,150,150);
         camera.lookAt(scene.position);
         //backDrop.loadBackdrop();
-        listeners.addEventListeners();
+        Listeners.AddEventListeners();
         animateScene();
     }
 
     return {
-        scene: scene,
-        camera: camera,
-        init: init,
-        startGame: startGame,
-        updateCanvas: updateCanvas,
-        startRendering: startRendering,
-        showInstruct: showInstruct
+        Scene: scene,
+        Camera: camera,
+        Init: init,
+        StartGame: startGame,
+        UpdateCanvas: updateCanvas,
+        StartRendering: startRendering,
+        ShowInstruct: showInstruct,
+        LaserColor: laserColor,
+        BaseSize: baseSize
     };
 })();
 
-window.onload = game.init();
+window.onload = Game.Init();
