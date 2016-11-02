@@ -56,6 +56,8 @@ var Game = (function ()
         document.getElementById("startGame").style.visibility = "hidden";
         startRendering = true;
         UI.MinimizeInstructions();
+        MainSpaceShip.Init();
+        scene.add(MainSpaceShip.Figure);
     }
 
     function init()

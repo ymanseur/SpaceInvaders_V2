@@ -112,10 +112,12 @@ var MainSpaceShip = (function ()
 
     function takeHit ()
     {
+        Animations.CreateExplosion(figure);
 
     }
 
     return {
+        Init: init,
         Figure: figure,
         MoveLeft: moveLeft,
         MoveRight: moveRight
