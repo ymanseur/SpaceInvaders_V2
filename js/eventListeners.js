@@ -17,15 +17,16 @@ var Listeners = (function()
         switch(event.keyCode)
         {
             case 13: //Enter to start
-                Game.StartGame();
+                if(!Game.GetInSession())
+                    Game.StartGame();
                 break;
             case 37: //Left
-                MainSpaceShip.MoveLeft=true;
-                MainSpaceShip.MoveRight=false;
+                MainSpaceShip.SetMoveLeft(true);
+                MainSpaceShip.SetMoveRight(false);
                 break;
             case 39: //Right
-                MainSpaceShip.MoveRight=true;
-                MainSpaceShip.MoveLeft=false;
+                MainSpaceShip.SetMoveRight(true);
+                MainSpaceShip.SetMoveLeft(false);
                 break;
             case 73: // I - toggle instructions
                 UI.ToggleInstructions();
@@ -40,9 +41,13 @@ var Listeners = (function()
     {
         switch(event.keyCode){
             case 37: //Left
-                moveLeft=false; moveRight=false; break;
+                MainSpaceShip.SetMoveLeft(false);
+                MainSpaceShip.SetMoveRight(false);
+                break;
             case 39: //Right
-                moveRight=false; moveLeft=false; break;
+                MainSpaceShip.SetMoveLeft(false);
+                MainSpaceShip.SetMoveRight(false);
+                break;
         }
     }
 

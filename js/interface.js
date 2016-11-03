@@ -12,21 +12,21 @@ var UI = (function ()
     {
         document.getElementById("instructions").style.visibility = "hidden";
         document.getElementById("help").style.visibility = "visible";
-        Game.ShowInstruct = false;
+        Game.SetShowInstruct(false);
     }
 
     function maximizeInstructions()
     {
         document.getElementById("instructions").style.visibility = "visible";
         document.getElementById("help").style.visibility = "hidden";
-        Game.ShowInstruct = true;
+        Game.SetShowInstruct(true);
     }
 
     function pauseGame() {
         if(Game.StartRendering)
-            Game.StartRendering = false;
+            Game.SetStartRendering(false);
         else
-            Game.StartRendering = true;
+            Game.SetStartRendering(true);
     }
 
     return {

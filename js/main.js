@@ -11,8 +11,7 @@ var Game = (function ()
     var elapsed = 0;
     var showInstruct = true;
     var startRendering = false;
-    var laserColor = 0xFFFF00;
-    var baseSize = 1;
+    var inSession = false;
 
     renderer.setClearColor(0x000000);
     renderer.setSize(width, height);
@@ -53,11 +52,12 @@ var Game = (function ()
 
     function startGame()
     {
+        inSession = true;
         document.getElementById("startGame").style.visibility = "hidden";
         startRendering = true;
         UI.MinimizeInstructions();
         MainSpaceShip.Init();
-        scene.add(MainSpaceShip.Figure);
+        scene.add(MainSpaceShip.Figure());
     }
 
     function init()
@@ -70,16 +70,40 @@ var Game = (function ()
         animateScene();
     }
 
+    function getInSession()
+    {
+        return inSession;
+    }
+
+    function getStartRendering()
+    {
+        return startRendering;
+    }
+
+    function setStartRendering(_value)
+    {
+        startRendering = _value;
+    }
+
+    function getShowInstruct()
+    {
+        return showInstruct;
+    }
+
+    function setShowInstruct(_value)
+    {
+        showInstruct = _value;
+    }
+
     return {
-        Scene: scene,
-        Camera: camera,
         Init: init,
         StartGame: startGame,
         UpdateCanvas: updateCanvas,
-        StartRendering: startRendering,
-        ShowInstruct: showInstruct,
-        LaserColor: laserColor,
-        BaseSize: baseSize
+        GetStartRendering: getStartRendering,
+        SetStartRendering: setStartRendering,
+        GetShowInstruct: getShowInstruct,
+        SetShowInstruct: setShowInstruct,
+        GetInSession: getInSession
     };
 })();
 

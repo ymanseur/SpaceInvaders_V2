@@ -1,6 +1,6 @@
 var Animations = (function ()
 {
-    var baseSize = Game.BaseSize;
+    var baseSize = Globals.BaseSize;
 
     function createExplosion( object3D )
     {
@@ -44,7 +44,8 @@ var MainSpaceShip = (function ()
     var moveLeft = false;
     var moveRight = false;
     var figure = new THREE.Object3D();
-    var baseSize = Game.BaseSize;
+    var baseSize = Globals.BaseSize;
+    var laserColor = Globals.LaserColor;
     var health = 10;
 
     function init ()
@@ -98,10 +99,10 @@ var MainSpaceShip = (function ()
     {
         var offset = 4 * baseSize;
         lights = [
-            new THREE.PointLight(Game.LaserColor, 0.4),
-            new THREE.PointLight(Game.LaserColor, 0.4),
-            new THREE.PointLight(Game.LaserColor, 0.4),
-            new THREE.PointLight(Game.LaserColor, 0.4)
+            new THREE.PointLight(laserColor, 0.4),
+            new THREE.PointLight(laserColor, 0.4),
+            new THREE.PointLight(laserColor, 0.4),
+            new THREE.PointLight(laserColor, 0.4)
         ];
 
         lights[0].position.set(0, offset, -offset);
@@ -116,11 +117,33 @@ var MainSpaceShip = (function ()
 
     }
 
+    function getHealth()
+    {
+        return health;
+    }
+
+    function getFigure()
+    {
+        return figure;
+    }
+
+    function setMoveLeft(_value)
+    {
+        moveLeft = _value;
+    }
+
+    function setMoveRight(_value)
+    {
+        moveRight = _value;
+    }
+
     return {
         Init: init,
-        Figure: figure,
-        MoveLeft: moveLeft,
-        MoveRight: moveRight
+        GetHealth: getHealth,
+        TakeHit: takeHit,
+        Figure: getFigure,
+        SetMoveLeft: setMoveLeft,
+        SetMoveRight: setMoveRight
     };
 
 })();
