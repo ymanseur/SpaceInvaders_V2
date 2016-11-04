@@ -12,6 +12,7 @@ var Game = (function ()
     var showInstruct = true;
     var startRendering = false;
     var inSession = false;
+    var framesPassed = 0;
 
     renderer.setClearColor(0x000000);
     renderer.setSize(width, height);
@@ -31,10 +32,40 @@ var Game = (function ()
 
     function renderScene()
     {
-        elapsed = clock.getElapsedTime();
+        // grab variables needed
+        var moveLeft = MainSpaceShip.GetMoveLeft();
+        var moveRight = MainSpaceShip.GetMoveRight();
+        var edge = aspectRatio >= 1 ? 0.05 * width : 0.03 * width;
+        var player = MainSpaceShip.Figure();
+        var lasers = MainSpaceShip.GetLasers();
+        var playerX = player.position.x;
 
+        // update fps
+        elapsed = clock.getElapsedTime();
         document.getElementById("fps").innerHTML = (1 / (elapsed - prev)).toFixed(2);
         prev = elapsed;
+        framesPassed++;
+
+        // move player
+        if (moveLeft && playerX > -edge)
+            player.translateX(-3);
+        if (moveRight && playerX < edge)
+            player.translateX(3);
+
+        if (lasers.length > 0)
+        {
+            for (var i = 0; i < lasers.length; i++){
+                lasers[i].translateZ(-4);
+                // remove lasers that left the f.o.v.
+                if (lasers[i].position.z < -100)
+                {
+                    scene.remove(lasers[i])
+                    MainSpaceShip.RemoveLaser(i);
+                }
+            }
+        }
+
+
     }
 
     function updateCanvas()
@@ -57,7 +88,6 @@ var Game = (function ()
 
         MainSpaceShip.Init();
         scene.add(MainSpaceShip.Figure());
-        scene.add(MainSpaceShip.GetLaser());
 
         scene.add(World.LightSource());
     }
@@ -93,15 +123,33 @@ var Game = (function ()
         showInstruct = _value;
     }
 
+    function getScene()
+    {
+        return scene;
+    }
+
+    function getFramesPassed()
+    {
+        return framesPassed;
+    }
+
+    function resetFramesPassed()
+    {
+        framesPassed = 0;
+    }
+
     return {
-        StartGame: startGame,
-        UpdateCanvas: updateCanvas,
-        SetScene: setScene,
         AnimateScene: animateScene,
-        GetStartRendering: getStartRendering,
-        SetStartRendering: setStartRendering,
+        GetFramesPassed: getFramesPassed,
+        GetInSession: getInSession,
+        GetScene: getScene,
         GetShowInstruct: getShowInstruct,
+        GetStartRendering: getStartRendering,
+        ResetFramesPassed: resetFramesPassed,
+        StartGame: startGame,
+        SetScene: setScene,
+        SetStartRendering: setStartRendering,
         SetShowInstruct: setShowInstruct,
-        GetInSession: getInSession
+        UpdateCanvas: updateCanvas
     };
 })();

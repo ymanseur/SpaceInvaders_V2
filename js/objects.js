@@ -63,7 +63,7 @@ var MainSpaceShip = (function ()
     var health = 10;
 
     var figure = new THREE.Object3D();
-    var laser = new THREE.Object3D();
+    var lasers = [];
 
     function init ()
     {
@@ -83,19 +83,18 @@ var MainSpaceShip = (function ()
             figure.add(lights[i]);
         }
 
-        createLaser();
-
-        resetLaser();
+        //move back spaceship
+        figure.position.z = 55 / baseSize;
 
     }
 
     function createParts ()
     {
         var boxGeometry = [
-            new THREE.BoxGeometry(13 * baseSize, 1 * baseSize, 4 * baseSize),
-            new THREE.BoxGeometry(11 * baseSize, 1 * baseSize, 1 * baseSize),
-            new THREE.BoxGeometry( 3 * baseSize, 1 * baseSize, 2 * baseSize),
-            new THREE.BoxGeometry( 1 * baseSize, 1 * baseSize, 1 * baseSize)
+            new THREE.BoxGeometry(13 * baseSize, baseSize, 4 * baseSize),
+            new THREE.BoxGeometry(11 * baseSize, baseSize,     baseSize),
+            new THREE.BoxGeometry( 3 * baseSize, baseSize, 2 * baseSize),
+            new THREE.BoxGeometry(     baseSize, baseSize,     baseSize)
         ];
 
         var shipMaterial = new THREE.MeshPhongMaterial({color:0x39FF14});
@@ -132,8 +131,9 @@ var MainSpaceShip = (function ()
         lights[3].position.set(7 * baseSize, 0, offset);
     }
 
-    function createLaser()
+    function shootLaser()
     {
+        var laser = new THREE.Object3D();
         var box = new THREE.BoxGeometry(0.9 * baseSize, 0.9 * baseSize, 3 * baseSize);
         var material = new THREE.MeshBasicMaterial({color:Globals.LaserColor});
         laser.add(new THREE.Mesh(box, material));
@@ -144,16 +144,22 @@ var MainSpaceShip = (function ()
             light.position.set(0, 15 * baseSize, 5 * baseSize * i / Globals.LaserIntensity);
             laser.add(light);
         }
-    }
 
-    function resetLaser()
-    {
         laser.position.set(figure.position.x, figure.position.y, figure.position.z - 3 * baseSize);
+
+        Game.GetScene().add(laser);
+        lasers.push(laser);
+
     }
 
-    function getLaser()
+    function removeLaser(index)
     {
-        return laser;
+        lasers.splice(index, 1);
+    }
+
+    function getLasers()
+    {
+        return lasers;
     }
 
     function takeHit ()
@@ -177,19 +183,33 @@ var MainSpaceShip = (function ()
         moveLeft = _value;
     }
 
+    function getMoveLeft()
+    {
+        return moveLeft;
+    }
+
     function setMoveRight(_value)
     {
         moveRight = _value;
     }
 
+    function getMoveRight()
+    {
+        return moveRight;
+    }
+
     return {
         Init: init,
-        GetHealth: getHealth,
-        TakeHit: takeHit,
         Figure: getFigure,
+        GetHealth: getHealth,
+        GetLasers: getLasers,
+        GetMoveLeft: getMoveLeft,
+        GetMoveRight: getMoveRight,
+        RemoveLaser: removeLaser,
         SetMoveLeft: setMoveLeft,
         SetMoveRight: setMoveRight,
-        GetLaser: getLaser
+        ShootLaser: shootLaser,
+        TakeHit: takeHit
     };
 
 })();
