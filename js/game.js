@@ -53,11 +53,16 @@ var Game = (function ()
     function startGame()
     {
         inSession = true;
-        document.getElementById("startGame").style.visibility = "hidden";
         startRendering = true;
+
         UI.MinimizeInstructions();
+        UI.HideStartText();
+
         MainSpaceShip.Init();
         scene.add(MainSpaceShip.Figure());
+        scene.add(MainSpaceShip.GetLaser());
+
+        scene.add(World.LightSource());
     }
 
     function setScene()

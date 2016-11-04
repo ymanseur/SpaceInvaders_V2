@@ -37,16 +37,33 @@ var Animations = (function ()
     };
 })();
 
+var World = (function()
+{
+    function lightSource()
+    {
+        var light = new THREE.PointLight(Globals.LaserColor, 0.5, 1000);
+        light.position.set(0, 150, 60);
+        return light;
+    }
+
+    return{
+        LightSource: lightSource
+    }
+})();
+
 var MainSpaceShip = (function ()
 {
     var parts = []; //array of boxes that make up the player's spaceship
     var lights = []; //array of point lights surrounding the player's spaceship
     var moveLeft = false;
     var moveRight = false;
-    var figure = new THREE.Object3D();
+
     var baseSize = Globals.BaseSize;
     var laserColor = Globals.LaserColor;
     var health = 10;
+
+    var figure = new THREE.Object3D();
+    var laser = new THREE.Object3D();
 
     function init ()
     {
@@ -65,6 +82,10 @@ var MainSpaceShip = (function ()
         {
             figure.add(lights[i]);
         }
+
+        createLaser();
+
+        resetLaser();
 
     }
 
@@ -111,6 +132,30 @@ var MainSpaceShip = (function ()
         lights[3].position.set(7 * baseSize, 0, offset);
     }
 
+    function createLaser()
+    {
+        var box = new THREE.BoxGeometry(0.9 * baseSize, 0.9 * baseSize, 3 * baseSize);
+        var material = new THREE.MeshBasicMaterial({color:Globals.LaserColor});
+        laser.add(new THREE.Mesh(box, material));
+
+        for (var i = -0.5 * Globals.LaserIntensity; i < 0.5 * Globals.LaserIntensity; i++)
+        {
+            var light = new THREE.PointLight(Globals.LaserColor, 1, 15 * Math.sqrt(2) * baseSize);
+            light.position.set(0, 15 * baseSize, 5 * baseSize * i / Globals.LaserIntensity);
+            laser.add(light);
+        }
+    }
+
+    function resetLaser()
+    {
+        laser.position.set(figure.position.x, figure.position.y, figure.position.z - 3 * baseSize);
+    }
+
+    function getLaser()
+    {
+        return laser;
+    }
+
     function takeHit ()
     {
         Animations.CreateExplosion(figure);
@@ -143,7 +188,8 @@ var MainSpaceShip = (function ()
         TakeHit: takeHit,
         Figure: getFigure,
         SetMoveLeft: setMoveLeft,
-        SetMoveRight: setMoveRight
+        SetMoveRight: setMoveRight,
+        GetLaser: getLaser
     };
 
 })();
