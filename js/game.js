@@ -27,17 +27,14 @@ var Game = (function ()
         if(startRendering)
             renderScene();
         renderer.render(scene, camera);
-        if(startRendering)
-        {
-            document.getElementById("fps").innerHTML = (1 / (elapsed - prev)).toFixed(2);
-            prev = elapsed;
-        }
-
     }
 
     function renderScene()
     {
         elapsed = clock.getElapsedTime();
+
+        document.getElementById("fps").innerHTML = (1 / (elapsed - prev)).toFixed(2);
+        prev = elapsed;
     }
 
     function updateCanvas()
