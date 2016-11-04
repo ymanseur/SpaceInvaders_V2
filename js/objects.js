@@ -61,6 +61,7 @@ var MainSpaceShip = (function ()
     var baseSize = Globals.BaseSize;
     var laserColor = Globals.LaserColor;
     var health = 10;
+    var score = 0;
 
     var figure = new THREE.Object3D();
     var lasers = [];
@@ -162,15 +163,25 @@ var MainSpaceShip = (function ()
         return lasers;
     }
 
-    function takeHit ()
+    function takeHit()
     {
         Animations.CreateExplosion(figure);
+        health--;
+    }
 
+    function enemyDestroyed()
+    {
+        score += 10;
     }
 
     function getHealth()
     {
         return health;
+    }
+
+    function getScore()
+    {
+        return score;
     }
 
     function getFigure()
@@ -200,11 +211,13 @@ var MainSpaceShip = (function ()
 
     return {
         Init: init,
+        EnemyDestroyed: enemyDestroyed,
         Figure: getFigure,
         GetHealth: getHealth,
         GetLasers: getLasers,
         GetMoveLeft: getMoveLeft,
         GetMoveRight: getMoveRight,
+        GetScore: getScore,
         RemoveLaser: removeLaser,
         SetMoveLeft: setMoveLeft,
         SetMoveRight: setMoveRight,

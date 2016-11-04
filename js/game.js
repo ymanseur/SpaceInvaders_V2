@@ -13,6 +13,7 @@ var Game = (function ()
     var startRendering = false;
     var inSession = false;
     var framesPassed = 0;
+    var highScore = 0; // plan is this will be pulled externally
 
     renderer.setClearColor(0x000000);
     renderer.setSize(width, height);
@@ -64,8 +65,6 @@ var Game = (function ()
                 }
             }
         }
-
-
     }
 
     function updateCanvas()
@@ -76,6 +75,13 @@ var Game = (function ()
         renderer.setSize(width,height);
         camera.aspect = aspectRatio;
         camera.updateProjectionMatrix();
+    }
+
+    function updateUIVariables()
+    {
+        document.getElementById("health").innerHTML = MainSpaceShip.GetHealth();
+        document.getElementById("playerScore").innerHTML = MainSpaceShip.GetScore();
+        document.getElementById("highScore").innerHTML = highScore;
     }
 
     function startGame()
@@ -89,7 +95,10 @@ var Game = (function ()
         MainSpaceShip.Init();
         scene.add(MainSpaceShip.Figure());
 
+        // This light source illuminates everything
         scene.add(World.LightSource());
+
+        updateUIVariables();
     }
 
     function setScene()
