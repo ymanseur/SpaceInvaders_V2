@@ -1,6 +1,7 @@
 var Globals =
     {
-        LaserColor: 0xFFFF00,
         BaseSize: 1,
-        LaserIntensity: 10
+        LaserColor: 0xFFFF00,
+        LaserDelay: 10,
+        LaserIntensity: 2
     };
