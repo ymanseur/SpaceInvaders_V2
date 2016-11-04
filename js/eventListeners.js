@@ -20,6 +20,13 @@ var Listeners = (function()
                 if(!Game.GetInSession())
                     Game.StartGame();
                 break;
+            case 32: //Space
+                if(Game.GetFramesPassed() > Globals.LaserDelay)
+                {
+                    Game.ResetFramesPassed();
+                    MainSpaceShip.ShootLaser();
+                }
+                break;
             case 37: //Left
                 MainSpaceShip.SetMoveLeft(true);
                 MainSpaceShip.SetMoveRight(false);
@@ -42,10 +49,8 @@ var Listeners = (function()
         switch(event.keyCode){
             case 37: //Left
                 MainSpaceShip.SetMoveLeft(false);
-                MainSpaceShip.SetMoveRight(false);
                 break;
             case 39: //Right
-                MainSpaceShip.SetMoveLeft(false);
                 MainSpaceShip.SetMoveRight(false);
                 break;
         }
