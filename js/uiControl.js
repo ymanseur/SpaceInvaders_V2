@@ -29,9 +29,14 @@ var UI = (function ()
             Game.SetStartRendering(true);
     }
 
+    function hideStartText() {
+        document.getElementById("startGame").style.visibility = "hidden";
+    }
+
     return {
         ToggleInstructions: toggleInstructions,
         PauseGame: pauseGame,
-        MinimizeInstructions: minimizeInstructions
+        MinimizeInstructions: minimizeInstructions,
+        HideStartText: hideStartText
     };
 })();
