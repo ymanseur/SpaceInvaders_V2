@@ -37,20 +37,6 @@ var Animations = (function ()
     };
 })();
 
-var World = (function()
-{
-    function lightSource()
-    {
-        var light = new THREE.PointLight(Globals.LaserColor, 0.5, 1000);
-        light.position.set(0, 150, 60);
-        return light;
-    }
-
-    return{
-        LightSource: lightSource
-    }
-})();
-
 var MainSpaceShip = (function ()
 {
     var parts; //array of boxes that make up the player's spaceship
@@ -108,7 +94,7 @@ var MainSpaceShip = (function ()
             new THREE.BoxGeometry(     baseSize, baseSize,     baseSize)
         ];
 
-        var shipMaterial = new THREE.MeshPhongMaterial({color:0x39FF14});
+        var shipMaterial = new THREE.MeshPhongMaterial({color:Globals.ShipColor});
 
         for(var  i = 0; i < boxGeometry.length; i++)
         {
@@ -212,3 +198,63 @@ var MainSpaceShip = (function ()
     };
 
 })();
+
+var Enemies = (function ()
+    {
+        var parts; //array of boxes that make up an enemy spaceship
+        var baseSize;
+
+
+        function init()
+        {
+            initVariables();
+        }
+
+        function initVariables()
+        {
+            parts = [];
+            baseSize = Globals.BaseSize;
+        }
+
+        function createParts()
+        {
+            var boxGeometry = [
+                new THREE.BoxGeometry(baseSize, baseSize, baseSize),
+                new THREE.BoxGeometry(baseSize, baseSize, baseSize),
+                new THREE.BoxGeometry(6 * baseSize, baseSize, baseSize),
+                new THREE.BoxGeometry(2 * baseSize, baseSize, baseSize),
+                new THREE.BoxGeometry(2 * baseSize, baseSize, baseSize),
+                new THREE.BoxGeometry(2 * baseSize, baseSize, baseSize),
+                new THREE.BoxGeometry(10 * baseSize, baseSize, 2 * baseSize),
+                new THREE.BoxGeometry(baseSize, baseSize, baseSize),
+                new THREE.BoxGeometry(baseSize, baseSize, baseSize),
+                new THREE.BoxGeometry(baseSize, baseSize, baseSize),
+                new THREE.BoxGeometry(baseSize, baseSize, baseSize),
+                new THREE.BoxGeometry(2 * baseSize, baseSize, baseSize),
+                new THREE.BoxGeometry(2 * baseSize, baseSize, baseSize)
+            ];
+            var shipMaterial = new THREE.MeshPhongMaterial({color:Globals.ShipColor});
+
+            for (var i = 0; i < boxGeometry.length; i++)
+            {
+                var boxMesh = new THREE.Mesh(boxGeometry[i], shipMaterial);
+                parts.push(boxMesh);
+            }
+        }
+
+    })();
+
+var World = (function()
+{
+    function lightSource()
+    {
+        var light = new THREE.PointLight(Globals.LaserColor, 0.5, 1000);
+        light.position.set(0, 150, 60);
+        return light;
+    }
+
+    return{
+        LightSource: lightSource
+    }
+})();
+
