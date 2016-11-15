@@ -2,7 +2,7 @@ var UI = (function ()
 {
     function toggleInstructions()
     {
-        if(Game.ShowInstruct)
+        if(Game.GetShowInstruct())
             minimizeInstructions();
         else
             maximizeInstructions();
@@ -23,7 +23,7 @@ var UI = (function ()
     }
 
     function pauseGame() {
-        if(Game.StartRendering)
+        if(Game.GetStartRendering())
             Game.SetStartRendering(false);
         else
             Game.SetStartRendering(true);
