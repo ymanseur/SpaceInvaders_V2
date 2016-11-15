@@ -104,16 +104,30 @@ var Game = (function ()
         UI.MinimizeInstructions();
         UI.HideStartText();
 
-        MainSpaceShip.Init();
-        scene.add(MainSpaceShip.Figure());
-
-        // This light source illuminates everything
-        scene.add(World.LightSource());
+        populateScene();
 
         updateCanvas();
         updateUIVariables();
 
         console.log("New Game Created Successfully!");
+    }
+
+    function populateScene()
+    {
+        // This light source illuminates everything
+        scene.add(World.LightSource());
+
+        // Add player spaceship to scene
+        MainSpaceShip.Init();
+        scene.add(MainSpaceShip.Figure());
+
+        // Add enemies to scene
+        Enemies.Init();
+        var enemies = Enemies.GetEnemies();
+        for(var i = 0; i < enemies.length; i++)
+        {
+            scene.add(enemies[i]);
+        }
     }
 
     function setScene()

@@ -203,17 +203,56 @@ var Enemies = (function ()
     {
         var parts; //array of boxes that make up an enemy spaceship
         var baseSize;
-
+        var numEnemies;
+        var enemies;
+        var enemyAlive;
 
         function init()
         {
             initVariables();
+
+            generateEnemies();
+
+            positionEnemies();
         }
 
         function initVariables()
         {
             parts = [];
             baseSize = Globals.BaseSize;
+            numEnemies = 55;
+            enemies = [];
+            enemyAlive = [];
+        }
+
+        function generateEnemies()
+        {
+            for (var i = 0; i < numEnemies; i++)
+            {
+                var enemy = new THREE.Object3D();
+                parts = [];
+                createParts();
+                positionParts();
+                for (var j = 0; j < parts.length; j++)
+                {
+                    enemy.add(parts[j]);
+                }
+                enemies.push(enemy);
+                enemyAlive.push(true);
+            }
+        }
+
+        function positionEnemies()
+        {
+            var i = 0, row, col;
+            for (row = -2; row <= 2; row++)
+            {
+                for (col = -5; col <= 5; col++)
+                {
+                    enemies[i].position.set(18 * baseSize * col, 0, 15 * baseSize * row - 60 * baseSize);
+                    i++;
+                }
+            }
         }
 
         function createParts()
@@ -242,6 +281,38 @@ var Enemies = (function ()
             }
         }
 
+        function positionParts()
+        {
+            parts[0].position.set(-1.5 * baseSize, 0, -3.5 * baseSize);
+            parts[1].position.set(1.5*baseSize,0,-3.5*baseSize);
+            parts[2].position.set(0,0,-2.5*baseSize);
+            parts[3].position.set(-3*baseSize,0,-1.5*baseSize);
+            parts[4].position.set(0,0,1.5*-baseSize);
+            parts[5].position.set(3*baseSize,0,1.5*-baseSize);
+            parts[6].position.set(0,0,0);
+            parts[7].position.set(-4.5*baseSize,0,1.5*baseSize);
+            parts[8].position.set(-2.5*baseSize,0,1.5*baseSize);
+            parts[9].position.set(2.5*baseSize,0,1.5*baseSize);
+            parts[10].position.set(4.5*baseSize,0,1.5*baseSize);
+            parts[11].position.set(-2*baseSize,0,2.5*baseSize);
+            parts[12].position.set(2*baseSize,0,2.5*baseSize);
+        }
+
+        function getEnemies()
+        {
+            return enemies;
+        }
+
+        function getEnemyAlive(index)
+        {
+            return enemyAlive[index];
+        }
+
+        return {
+            GetEnemies: getEnemies,
+            GetEnemyAlive: getEnemyAlive,
+            Init: init
+        }
     })();
 
 var World = (function()
