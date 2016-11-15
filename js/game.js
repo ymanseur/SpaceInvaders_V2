@@ -67,7 +67,7 @@ var Game = (function ()
                 // remove lasers that left the f.o.v.
                 if (lasers[i].position.z < -100)
                 {
-                    scene.remove(lasers[i])
+                    scene.remove(lasers[i]);
                     MainSpaceShip.RemoveLaser(i);
                 }
             }
