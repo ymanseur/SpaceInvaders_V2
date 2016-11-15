@@ -33,10 +33,21 @@ var UI = (function ()
         document.getElementById("startGame").style.visibility = "hidden";
     }
 
+    function showStartText() {
+        document.getElementById("startGame").style.visibility = "visible";
+    }
+
+    function restartGame() {
+        showStartText();
+        maximizeInstructions();
+        Game.Reload();
+    }
+
     return {
-        ToggleInstructions: toggleInstructions,
-        PauseGame: pauseGame,
+        HideStartText: hideStartText,
         MinimizeInstructions: minimizeInstructions,
-        HideStartText: hideStartText
+        PauseGame: pauseGame,
+        RestartGame: restartGame,
+        ToggleInstructions: toggleInstructions
     };
 })();

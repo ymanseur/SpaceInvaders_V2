@@ -14,32 +14,43 @@ var Listeners = (function()
 
     function keyIsPressed(event)
     {
+        var inSession = Game.GetInSession();
         switch(event.keyCode)
         {
             case 13: //Enter to start
-                if(!Game.GetInSession())
+                if(!inSession)
                     Game.StartGame();
                 break;
             case 32: //Space
-                if(Game.GetFramesPassed() > Globals.LaserDelay)
+                if(inSession && Game.GetFramesPassed() > Globals.LaserDelay)
                 {
                     Game.ResetFramesPassed();
                     MainSpaceShip.ShootLaser();
                 }
                 break;
             case 37: //Left
-                MainSpaceShip.SetMoveLeft(true);
-                MainSpaceShip.SetMoveRight(false);
+                if(inSession){
+                    MainSpaceShip.SetMoveLeft(true);
+                    MainSpaceShip.SetMoveRight(false);
+                }
                 break;
             case 39: //Right
-                MainSpaceShip.SetMoveRight(true);
-                MainSpaceShip.SetMoveLeft(false);
+                if(inSession)
+                {
+                    MainSpaceShip.SetMoveRight(true);
+                    MainSpaceShip.SetMoveLeft(false);
+                }
                 break;
             case 73: // I - toggle instructions
                 UI.ToggleInstructions();
                 break;
             case 80: // P - pause game
-                UI.PauseGame();
+                if(inSession)
+                    UI.PauseGame();
+                break;
+            case 82: // R - restart game
+                if(inSession)
+                    UI.RestartGame();
                 break;
         }
     }

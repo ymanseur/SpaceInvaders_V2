@@ -86,6 +86,8 @@ var Game = (function ()
 
     function startGame()
     {
+        console.log("Starting New Game...");
+
         inSession = true;
         startRendering = true;
 
@@ -99,6 +101,8 @@ var Game = (function ()
         scene.add(World.LightSource());
 
         updateUIVariables();
+
+        console.log("New Game Created Successfully!");
     }
 
     function setScene()
@@ -107,6 +111,31 @@ var Game = (function ()
         camera.position.set(0, 150, 150);
         camera.lookAt(scene.position);
     }
+
+    function emptyScene()
+    {
+        var i = scene.children.length - 1;
+        for (; i >= 0; i--)
+        {
+            var child = scene.children[i];
+            scene.remove(child);
+        }
+    }
+
+    function resetVariables()
+    {
+        showInstruct = true;
+        startRendering = false;
+        inSession = false;
+    }
+
+    function reload()
+    {
+        emptyScene();
+        resetVariables();
+        setScene();
+    }
+
     function getInSession()
     {
         return inSession;
@@ -154,6 +183,7 @@ var Game = (function ()
         GetScene: getScene,
         GetShowInstruct: getShowInstruct,
         GetStartRendering: getStartRendering,
+        Reload: reload,
         ResetFramesPassed: resetFramesPassed,
         StartGame: startGame,
         SetScene: setScene,

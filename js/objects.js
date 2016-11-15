@@ -53,21 +53,22 @@ var World = (function()
 
 var MainSpaceShip = (function ()
 {
-    var parts = []; //array of boxes that make up the player's spaceship
-    var lights = []; //array of point lights surrounding the player's spaceship
-    var moveLeft = false;
-    var moveRight = false;
+    var parts; //array of boxes that make up the player's spaceship
+    var lights; //array of point lights surrounding the player's spaceship
+    var moveLeft; //bool used to move left
+    var moveRight; //bool used to move right
+    var baseSize; //global variable for dimensions
+    var laserColor;
+    var health;
+    var score;
 
-    var baseSize = Globals.BaseSize;
-    var laserColor = Globals.LaserColor;
-    var health = 10;
-    var score = 0;
-
-    var figure = new THREE.Object3D();
-    var lasers = [];
+    var figure; //object3D of spaceship
+    var lasers; //array of lasers shot
 
     function init ()
     {
+        initVariables();
+
         createParts();
 
         positionParts();
@@ -87,6 +88,19 @@ var MainSpaceShip = (function ()
         //move back spaceship
         figure.position.z = 55 / baseSize;
 
+    }
+
+    function initVariables() {
+        parts = [];
+        lights = [];
+        moveLeft = false;
+        moveRight = false;
+        baseSize = Globals.BaseSize;
+        laserColor = Globals.LaserColor;
+        health = 10;
+        score = 0;
+        figure = new THREE.Object3D();
+        lasers = [];
     }
 
     function createParts ()
