@@ -1,5 +1,9 @@
 var Listeners = (function()
 {
+    var isShooting = false;
+    var moveLeft = false;
+    var moveRight = false;
+
     function addEventListeners()
     {
         window.document.addEventListener("keydown", keyIsPressed);
@@ -22,23 +26,20 @@ var Listeners = (function()
                     Game.StartGame();
                 break;
             case 32: //Space
-                if(inSession && Game.GetFramesPassed() > Globals.LaserDelay)
-                {
-                    Game.ResetFramesPassed();
-                    MainSpaceShip.ShootLaser();
-                }
+                isShooting = true;
                 break;
             case 37: //Left
-                if(inSession){
-                    MainSpaceShip.SetMoveLeft(true);
-                    MainSpaceShip.SetMoveRight(false);
+                if(inSession)
+                {
+                    moveRight = false;
+                    moveLeft = true;
                 }
                 break;
             case 39: //Right
                 if(inSession)
                 {
-                    MainSpaceShip.SetMoveRight(true);
-                    MainSpaceShip.SetMoveLeft(false);
+                    moveLeft = false;
+                    moveRight = true;
                 }
                 break;
             case 73: // I - toggle instructions
@@ -58,16 +59,37 @@ var Listeners = (function()
     function keyIsReleased(event)
     {
         switch(event.keyCode){
+            case 32: //Space
+                isShooting = false;
+                break;
             case 37: //Left
-                MainSpaceShip.SetMoveLeft(false);
+                moveLeft = false;
                 break;
             case 39: //Right
-                MainSpaceShip.SetMoveRight(false);
+                moveRight = false;
                 break;
         }
     }
 
+    function getIsShooting()
+    {
+        return isShooting;
+    }
+
+    function getMoveLeft()
+    {
+        return moveLeft;
+    }
+
+    function getMoveRight()
+    {
+        return moveRight;
+    }
+
     return {
-        AddEventListeners: addEventListeners
+        AddEventListeners: addEventListeners,
+        GetIsShooting: getIsShooting,
+        GetMoveLeft: getMoveLeft,
+        GetMoveRight: getMoveRight
     };
 })();

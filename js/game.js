@@ -34,9 +34,9 @@ var Game = (function ()
     function renderScene()
     {
         // grab variables needed
-        var moveLeft = MainSpaceShip.GetMoveLeft();
-        var moveRight = MainSpaceShip.GetMoveRight();
-        var edge = aspectRatio >= 1 ? 0.05 * width : 0.03 * width;
+        var moveLeft = Listeners.GetMoveLeft();
+        var moveRight = Listeners.GetMoveRight();
+        var edge = aspectRatio * 950 / 1920 * 100;
         var player = MainSpaceShip.Figure();
         var lasers = MainSpaceShip.GetLasers();
         var playerX = player.position.x;
@@ -52,6 +52,13 @@ var Game = (function ()
             player.translateX(-3);
         if (moveRight && playerX < edge)
             player.translateX(3);
+
+        // shoot laser if spacebar is held down
+        if(Listeners.GetIsShooting() && inSession && framesPassed > Globals.LaserDelay)
+        {
+            framesPassed = 0;
+            MainSpaceShip.ShootLaser();
+        }
 
         if (lasers.length > 0)
         {
@@ -69,12 +76,15 @@ var Game = (function ()
 
     function updateCanvas()
     {
+        console.log("Updating Window Size...");
         width = window.innerWidth;
         height = window.innerHeight;
         aspectRatio = width/height;
         renderer.setSize(width,height);
         camera.aspect = aspectRatio;
         camera.updateProjectionMatrix();
+        console.log("New Dimensions: ");
+        console.log("H: " + height + " W: " + width);
     }
 
     function updateUIVariables()
@@ -100,6 +110,7 @@ var Game = (function ()
         // This light source illuminates everything
         scene.add(World.LightSource());
 
+        updateCanvas();
         updateUIVariables();
 
         console.log("New Game Created Successfully!");
@@ -166,25 +177,13 @@ var Game = (function ()
         return scene;
     }
 
-    function getFramesPassed()
-    {
-        return framesPassed;
-    }
-
-    function resetFramesPassed()
-    {
-        framesPassed = 0;
-    }
-
     return {
         AnimateScene: animateScene,
-        GetFramesPassed: getFramesPassed,
         GetInSession: getInSession,
         GetScene: getScene,
         GetShowInstruct: getShowInstruct,
         GetStartRendering: getStartRendering,
         Reload: reload,
-        ResetFramesPassed: resetFramesPassed,
         StartGame: startGame,
         SetScene: setScene,
         SetStartRendering: setStartRendering,

@@ -55,8 +55,6 @@ var MainSpaceShip = (function ()
 {
     var parts; //array of boxes that make up the player's spaceship
     var lights; //array of point lights surrounding the player's spaceship
-    var moveLeft; //bool used to move left
-    var moveRight; //bool used to move right
     var baseSize; //global variable for dimensions
     var laserColor;
     var health;
@@ -93,8 +91,6 @@ var MainSpaceShip = (function ()
     function initVariables() {
         parts = [];
         lights = [];
-        moveLeft = false;
-        moveRight = false;
         baseSize = Globals.BaseSize;
         laserColor = Globals.LaserColor;
         health = 10;
@@ -203,38 +199,14 @@ var MainSpaceShip = (function ()
         return figure;
     }
 
-    function setMoveLeft(_value)
-    {
-        moveLeft = _value;
-    }
-
-    function getMoveLeft()
-    {
-        return moveLeft;
-    }
-
-    function setMoveRight(_value)
-    {
-        moveRight = _value;
-    }
-
-    function getMoveRight()
-    {
-        return moveRight;
-    }
-
     return {
         Init: init,
         EnemyDestroyed: enemyDestroyed,
         Figure: getFigure,
         GetHealth: getHealth,
         GetLasers: getLasers,
-        GetMoveLeft: getMoveLeft,
-        GetMoveRight: getMoveRight,
         GetScore: getScore,
         RemoveLaser: removeLaser,
-        SetMoveLeft: setMoveLeft,
-        SetMoveRight: setMoveRight,
         ShootLaser: shootLaser,
         TakeHit: takeHit
     };
