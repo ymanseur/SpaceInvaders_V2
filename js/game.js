@@ -14,7 +14,11 @@ var Game = (function ()
     var inSession = false;
     var framesPassed = 0;
     var highScore = 0; // plan is this will be pulled externally
+
+    // import globals
+    var enemyLaserSpeed = Globals.EnemyLaserSpeed;
     var playerSpeed = Globals.PlayerSpeed;
+    var playerLaserSpeed = Globals.PlayerLaserSpeed;
 
     renderer.setClearColor(0x000000);
     renderer.setSize(width, height);
@@ -61,10 +65,11 @@ var Game = (function ()
             MainSpaceShip.ShootLaser();
         }
 
+        // process laser movement and behavior
         if (lasers.length > 0)
         {
             for (var i = 0; i < lasers.length; i++){
-                lasers[i].translateZ(-4);
+                lasers[i].translateZ(-playerLaserSpeed);
                 // remove lasers that left the f.o.v.
                 if (lasers[i].position.z < -100)
                 {
