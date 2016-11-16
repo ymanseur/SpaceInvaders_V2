@@ -4,5 +4,6 @@ var Globals =
         LaserColor: 0xFFFF00,
         LaserDelay: 10,
         LaserIntensity: 2,
+        PlayerSpeed: 4,
         ShipColor: 0x39FF14
     };
