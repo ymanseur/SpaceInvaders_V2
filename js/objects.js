@@ -151,6 +151,7 @@ var MainSpaceShip = (function ()
 
     function removeLaser(index)
     {
+        Game.GetScene().remove(lasers[index]);
         lasers.splice(index, 1);
     }
 
@@ -204,8 +205,8 @@ var Enemies = (function ()
         var parts; //array of boxes that make up an enemy spaceship
         var baseSize;
         var numEnemies;
-        var enemies;
-        var enemyAlive;
+        var enemies; // array of 3D objects of enemies
+        var liveEnemies; // array of indices of alive enemies
 
         function init()
         {
@@ -222,7 +223,7 @@ var Enemies = (function ()
             baseSize = Globals.BaseSize;
             numEnemies = 55;
             enemies = [];
-            enemyAlive = [];
+            liveEnemies = [];
         }
 
         function generateEnemies()
@@ -238,7 +239,7 @@ var Enemies = (function ()
                     enemy.add(parts[j]);
                 }
                 enemies.push(enemy);
-                enemyAlive.push(true);
+                liveEnemies.push(i);
             }
         }
 
@@ -298,19 +299,26 @@ var Enemies = (function ()
             parts[12].position.set(2*baseSize,0,2.5*baseSize);
         }
 
+        function destroyEnemy(index)
+        {
+            Game.GetScene().remove(enemies[index]);
+            liveEnemies.splice(liveEnemies.indexOf(index), 1);
+        }
+
         function getEnemies()
         {
             return enemies;
         }
 
-        function getEnemyAlive(index)
+        function getLiveEnemies()
         {
-            return enemyAlive[index];
+            return liveEnemies;
         }
 
         return {
+            DestroyEnemy: destroyEnemy,
             GetEnemies: getEnemies,
-            GetEnemyAlive: getEnemyAlive,
+            GetLiveEnemies: getLiveEnemies,
             Init: init
         }
     })();

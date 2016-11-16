@@ -14,6 +14,7 @@ var Game = (function ()
     var inSession = false;
     var framesPassed = 0;
     var highScore = 0; // plan is this will be pulled externally
+    var playerSpeed = Globals.PlayerSpeed;
 
     renderer.setClearColor(0x000000);
     renderer.setSize(width, height);
@@ -49,9 +50,9 @@ var Game = (function ()
 
         // move player
         if (moveLeft && playerX > -edge)
-            player.translateX(-3);
+            player.translateX(-playerSpeed);
         if (moveRight && playerX < edge)
-            player.translateX(3);
+            player.translateX(playerSpeed);
 
         // shoot laser if spacebar is held down
         if(Listeners.GetIsShooting() && inSession && framesPassed > Globals.LaserDelay)
@@ -67,7 +68,6 @@ var Game = (function ()
                 // remove lasers that left the f.o.v.
                 if (lasers[i].position.z < -100)
                 {
-                    scene.remove(lasers[i]);
                     MainSpaceShip.RemoveLaser(i);
                 }
             }
