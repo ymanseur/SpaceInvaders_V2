@@ -208,6 +208,7 @@ var Enemies = (function ()
         var numEnemies;
         var enemies; // array of 3D objects of enemies
         var liveEnemies; // array of indices of alive enemies
+        var enemySpeed;
 
         function init()
         {
@@ -225,6 +226,7 @@ var Enemies = (function ()
             numEnemies = 55;
             enemies = [];
             liveEnemies = [];
+            enemySpeed = Globals.EnemySpeed;
         }
 
         function generateEnemies()
@@ -300,6 +302,42 @@ var Enemies = (function ()
             parts[12].position.set(2*baseSize,0,2.5*baseSize);
         }
 
+        function moveLeft()
+        {
+            for(var j = 0; j < liveEnemies.length; j++)
+            {
+                var i = liveEnemies[j]; //actual index of enemy
+                enemies[i].translateX(-enemySpeed);
+            }
+        }
+
+        function moveRight()
+        {
+            for(var j = 0; j < liveEnemies.length; j++)
+            {
+                var i = liveEnemies[j]; //actual index of enemy
+                enemies[i].translateX(enemySpeed);
+            }
+        }
+
+        function moveForward()
+        {
+            for(var j = 0; j < liveEnemies.length; j++)
+            {
+                var i = liveEnemies[j]; //actual index of enemy
+                enemies[i].translateZ(enemySpeed/3);
+            }
+        }
+
+        function moveBack()
+        {
+            for(var j = 0; j < liveEnemies.length; j++)
+            {
+                var i = liveEnemies[j]; //actual index of enemy
+                enemies[i].translateZ(-enemySpeed/3);
+            }
+        }
+
         function destroyEnemy(index)
         {
             Game.GetScene().remove(enemies[index]);
@@ -321,6 +359,10 @@ var Enemies = (function ()
             DestroyEnemy: destroyEnemy,
             GetEnemies: getEnemies,
             GetLiveEnemies: getLiveEnemies,
+            MoveBack: moveBack,
+            MoveForward: moveForward,
+            MoveLeft: moveLeft,
+            MoveRight: moveRight,
             Init: init
         }
     })();

@@ -14,8 +14,11 @@ var Game = (function ()
     var inSession = false;
     var framesPassed = 0;
     var highScore = 0; // plan is this will be pulled externally
+    var enemyCounter = 0; // counter
+    var level = 1; //start off in easy mode
 
     // import globals
+    var enemyCycleLength = Globals.EnemyCycleLength;
     var enemyLaserSpeed = Globals.EnemyLaserSpeed;
     var playerSpeed = Globals.PlayerSpeed;
     var playerLaserSpeed = Globals.PlayerLaserSpeed;
@@ -58,6 +61,44 @@ var Game = (function ()
         if (moveRight && playerX < edge)
             player.translateX(playerSpeed);
 
+        // move enemies
+        enemyCounter = (enemyCounter + 1) % enemyCycleLength;
+        switch (level)
+        {
+            case Difficulty.Easy:
+                if(enemyCounter < enemyCycleLength / 4)
+                    Enemies.MoveLeft();
+                else if (enemyCounter < enemyCycleLength * 3 / 4)
+                    Enemies.MoveRight();
+                else
+                    Enemies.MoveLeft();
+                break;
+            case Difficulty.Medium:
+                if(enemyCounter < enemyCycleLength / 5)
+                    Enemies.MoveLeft();
+                else if (enemyCounter < enemyCycleLength * 3 / 10)
+                    Enemies.MoveForward();
+                else if (enemyCounter < enemyCycleLength * 7 / 10)
+                    Enemies.MoveRight();
+                else if (enemyCounter < enemyCycleLength * 4 / 5)
+                    Enemies.MoveBack();
+                else
+                    Enemies.MoveLeft();
+                break;
+            default: // if not medium or easy, make it hard
+                if(enemyCounter < enemyCycleLength / 5)
+                    Enemies.MoveLeft();
+                else if (enemyCounter < enemyCycleLength * 3 / 10)
+                    Enemies.MoveForward();
+                else if (enemyCounter < enemyCycleLength * 7 / 10)
+                    Enemies.MoveRight();
+                else if (enemyCounter < enemyCycleLength * 4 / 5)
+                    Enemies.MoveForward();
+                else
+                    Enemies.MoveLeft();
+                break;
+        }
+
         // shoot laser if spacebar is held down
         if(Listeners.GetIsShooting() && inSession && framesPassed > Globals.LaserDelay)
         {
@@ -97,6 +138,7 @@ var Game = (function ()
         document.getElementById("health").innerHTML = MainSpaceShip.GetHealth();
         document.getElementById("playerScore").innerHTML = MainSpaceShip.GetScore();
         document.getElementById("highScore").innerHTML = highScore;
+        document.getElementById("currentLevel").innerHTML = level;
     }
 
     function startGame()
@@ -157,6 +199,8 @@ var Game = (function ()
         showInstruct = true;
         startRendering = false;
         inSession = false;
+        enemyCounter = 0;
+        level = 1;
     }
 
     function reload()
