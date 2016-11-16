@@ -21,15 +21,16 @@ var Animations = (function ()
         {
             var particle = new THREE.Mesh(new THREE.BoxGeometry(size, size, size), new THREE.MeshPhongMaterial({color:0x39FF14}));
             var randX = 10 * baseSize * Math.random() - 5 * baseSize;
-            var randYZ = 7 * baseSize * Math.random() - 3.5 * baseSize;
-            particle.position.set(randX, randYZ, randYZ);
+            var randY = 7 * baseSize * Math.random() - 3.5 * baseSize;
+            var randZ = 7 * baseSize * Math.random() - 3.5 * baseSize;
+            particle.position.set(randX, randY, randZ);
             explosion.add(particle);
         }
 
         explosion.position.set(x, 0, z);
 
-        setTimeout( function () { scene.add(explosion); }, 0);
-        setTimeout( function () { scene.remove(explosion); }, 125);
+        setTimeout( function () { Game.GetScene().add(explosion); }, 0);
+        setTimeout( function () { Game.GetScene().remove(explosion); }, 125);
     }
 
     return {
@@ -246,7 +247,7 @@ var Enemies = (function ()
         function positionEnemies()
         {
             var i = 0, row, col;
-            for (row = -2; row <= 2; row++)
+            for (row = 2; row >= -2; row--)
             {
                 for (col = -5; col <= 5; col++)
                 {
@@ -302,6 +303,7 @@ var Enemies = (function ()
         function destroyEnemy(index)
         {
             Game.GetScene().remove(enemies[index]);
+            Animations.CreateExplosion(enemies[index]);
             liveEnemies.splice(liveEnemies.indexOf(index), 1);
         }
 
