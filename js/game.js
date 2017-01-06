@@ -18,6 +18,7 @@ var Game = (function ()
     var level = 1; //start off in easy mode
 
     // import globals
+    var enemyCycleLength = Globals.EnemyCycleLength;
     var enemyLaserSpeed = Globals.EnemyLaserSpeed;
     var playerSpeed = Globals.PlayerSpeed;
     var playerLaserSpeed = Globals.PlayerLaserSpeed;
