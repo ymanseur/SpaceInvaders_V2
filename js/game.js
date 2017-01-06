@@ -18,7 +18,6 @@ var Game = (function ()
     var level = 1; //start off in easy mode
 
     // import globals
-    var enemyCycleLength = Globals.EnemyCycleLength;
     var enemyLaserSpeed = Globals.EnemyLaserSpeed;
     var playerSpeed = Globals.PlayerSpeed;
     var playerLaserSpeed = Globals.PlayerLaserSpeed;
@@ -63,44 +62,10 @@ var Game = (function ()
 
         // move enemies
         enemyCounter = (enemyCounter + 1) % enemyCycleLength;
-        switch (level)
-        {
-            case Difficulty.Easy:
-                if(enemyCounter < enemyCycleLength / 4)
-                    Enemies.MoveLeft();
-                else if (enemyCounter < enemyCycleLength * 3 / 4)
-                    Enemies.MoveRight();
-                else
-                    Enemies.MoveLeft();
-                break;
-            case Difficulty.Medium:
-                if(enemyCounter < enemyCycleLength / 5)
-                    Enemies.MoveLeft();
-                else if (enemyCounter < enemyCycleLength * 3 / 10)
-                    Enemies.MoveForward();
-                else if (enemyCounter < enemyCycleLength * 7 / 10)
-                    Enemies.MoveRight();
-                else if (enemyCounter < enemyCycleLength * 4 / 5)
-                    Enemies.MoveBack();
-                else
-                    Enemies.MoveLeft();
-                break;
-            default: // if not medium or easy, make it hard
-                if(enemyCounter < enemyCycleLength / 5)
-                    Enemies.MoveLeft();
-                else if (enemyCounter < enemyCycleLength * 3 / 10)
-                    Enemies.MoveForward();
-                else if (enemyCounter < enemyCycleLength * 7 / 10)
-                    Enemies.MoveRight();
-                else if (enemyCounter < enemyCycleLength * 4 / 5)
-                    Enemies.MoveForward();
-                else
-                    Enemies.MoveLeft();
-                break;
-        }
+        Enemies.Mobilize(level, enemyCounter);
 
         // shoot laser if spacebar is held down
-        if(Listeners.GetIsShooting() && inSession && framesPassed > Globals.LaserDelay)
+        if(inSession && Listeners.GetIsShooting() && framesPassed > Globals.LaserDelay)
         {
             framesPassed = 0;
             MainSpaceShip.ShootLaser();

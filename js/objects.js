@@ -338,6 +338,46 @@ var Enemies = (function ()
             }
         }
 
+        function mobilize(level, enemyCounter)
+        {
+            var enemyCycleLength = Globals.EnemyCycleLength;
+            switch (level)
+            {
+                case Difficulty.Easy:
+                    if(enemyCounter < enemyCycleLength / 4)
+                        moveLeft();
+                    else if (enemyCounter < enemyCycleLength * 3 / 4)
+                        moveRight();
+                    else
+                        moveLeft();
+                    break;
+                case Difficulty.Medium:
+                    if(enemyCounter < enemyCycleLength / 5)
+                        moveLeft();
+                    else if (enemyCounter < enemyCycleLength * 3 / 10)
+                        moveForward();
+                    else if (enemyCounter < enemyCycleLength * 7 / 10)
+                        moveRight();
+                    else if (enemyCounter < enemyCycleLength * 4 / 5)
+                        moveBack();
+                    else
+                        moveLeft();
+                    break;
+                default: // if not medium or easy, make it hard
+                    if(enemyCounter < enemyCycleLength / 5)
+                        moveLeft();
+                    else if (enemyCounter < enemyCycleLength * 3 / 10)
+                        moveForward();
+                    else if (enemyCounter < enemyCycleLength * 7 / 10)
+                        moveRight();
+                    else if (enemyCounter < enemyCycleLength * 4 / 5)
+                        moveForward();
+                    else
+                        moveLeft();
+                    break;
+            }
+        }
+
         function destroyEnemy(index)
         {
             Game.GetScene().remove(enemies[index]);
@@ -350,19 +390,10 @@ var Enemies = (function ()
             return enemies;
         }
 
-        function getLiveEnemies()
-        {
-            return liveEnemies;
-        }
-
         return {
             DestroyEnemy: destroyEnemy,
             GetEnemies: getEnemies,
-            GetLiveEnemies: getLiveEnemies,
-            MoveBack: moveBack,
-            MoveForward: moveForward,
-            MoveLeft: moveLeft,
-            MoveRight: moveRight,
+            Mobilize: mobilize,
             Init: init
         }
     })();
