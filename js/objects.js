@@ -453,9 +453,11 @@ var Enemies = (function ()
             DestroyEnemy: destroyEnemy,
             GetEnemies: getEnemies,
             GetLaser: getLaser,
+            Height: 7 * Globals.BaseSize,
             Mobilize: mobilize,
             Init: init,
-            ResetLaser: resetLaser
+            ResetLaser: resetLaser,
+            Width: 10 * Globals.BaseSize
         }
     })();
 
