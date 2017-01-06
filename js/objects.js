@@ -147,7 +147,6 @@ var MainSpaceShip = (function ()
 
         Game.GetScene().add(laser);
         lasers.push(laser);
-
     }
 
     function removeLaser(index)
@@ -209,6 +208,8 @@ var Enemies = (function ()
         var enemies; // array of 3D objects of enemies
         var liveEnemies; // array of indices of alive enemies
         var enemySpeed;
+        var frontRow; // 2D array of enemies where index [x][0] is in the front for column x
+        var laser;
 
         function init()
         {
@@ -217,6 +218,10 @@ var Enemies = (function ()
             generateEnemies();
 
             positionEnemies();
+
+            createLaser();
+
+            resetLaser();
         }
 
         function initVariables()
@@ -227,6 +232,11 @@ var Enemies = (function ()
             enemies = [];
             liveEnemies = [];
             enemySpeed = Globals.EnemySpeed;
+            laser = new THREE.Object3D();
+
+            frontRow = new Array(11);
+            for (var i = 0; i < frontRow.length; i++)
+                frontRow[i] = new Array(5);
         }
 
         function generateEnemies()
@@ -248,14 +258,19 @@ var Enemies = (function ()
 
         function positionEnemies()
         {
-            var i = 0, row, col;
+            var i = 0, row, col, x = 0, y = 0;
+            // x and y are used for initializing 2D array for choosing which enemy shoots
             for (row = 2; row >= -2; row--)
             {
                 for (col = -5; col <= 5; col++)
                 {
                     enemies[i].position.set(18 * baseSize * col, 0, 15 * baseSize * row - 60 * baseSize);
+                    frontRow[x][y] = i;
                     i++;
+                    x++
                 }
+                x = 0;
+                y++;
             }
         }
 
@@ -300,6 +315,21 @@ var Enemies = (function ()
             parts[10].position.set(4.5*baseSize,0,1.5*baseSize);
             parts[11].position.set(-2*baseSize,0,2.5*baseSize);
             parts[12].position.set(2*baseSize,0,2.5*baseSize);
+        }
+
+        function createLaser()
+        {
+            var box = new THREE.BoxGeometry(0.9 * baseSize, 0.9 * baseSize, 3 * baseSize);
+            var material = new THREE.MeshBasicMaterial({color:Globals.LaserColor});
+            laser.add(new THREE.Mesh(box, material));
+
+            for (var i = -0.5 * Globals.LaserIntensity; i < 0.5 * Globals.LaserIntensity; i++)
+            {
+                var light = new THREE.PointLight(Globals.LaserColor, 1, 15 * Math.sqrt(2) * baseSize);
+                light.position.set(0, 15 * baseSize, 5 * baseSize * i / Globals.LaserIntensity);
+                laser.add(light);
+            }
+            Game.GetScene().add(laser);
         }
 
         function moveLeft()
@@ -383,6 +413,30 @@ var Enemies = (function ()
             Game.GetScene().remove(enemies[index]);
             Animations.CreateExplosion(enemies[index]);
             liveEnemies.splice(liveEnemies.indexOf(index), 1);
+            // remove enemy from frontRow array
+            var x = index;
+            var i = 1;
+            while (x > 10){
+                x = index - i * 11;
+                i++;
+            }
+            frontRow[x].splice(frontRow[x].indexOf(index), 1);
+        }
+
+        function resetLaser()
+        {
+            var shooter = enemies[chooseShootingEnemy()];
+            laser.position.set(shooter.position.x, shooter.position.y, shooter.position.z + 3 * baseSize);
+        }
+
+        function chooseShootingEnemy()
+        {
+            var randColumn = getRandomIntInclusive(0,10);
+            while (frontRow[randColumn].length == 0)
+            {
+                randColumn = getRandomIntInclusive(0,10);
+            }
+            return frontRow[randColumn][0];
         }
 
         function getEnemies()
@@ -390,11 +444,18 @@ var Enemies = (function ()
             return enemies;
         }
 
+        function getLaser()
+        {
+            return laser;
+        }
+
         return {
             DestroyEnemy: destroyEnemy,
             GetEnemies: getEnemies,
+            GetLaser: getLaser,
             Mobilize: mobilize,
-            Init: init
+            Init: init,
+            ResetLaser: resetLaser
         }
     })();
 

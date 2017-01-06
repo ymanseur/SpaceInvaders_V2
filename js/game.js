@@ -47,6 +47,7 @@ var Game = (function ()
         var edge = aspectRatio * 950 / 1920 * 100;
         var player = MainSpaceShip.Figure();
         var lasers = MainSpaceShip.GetLasers();
+        var enemyLaser = Enemies.GetLaser();
         var playerX = player.position.x;
 
         // update fps
@@ -72,7 +73,7 @@ var Game = (function ()
             MainSpaceShip.ShootLaser();
         }
 
-        // process laser movement and behavior
+        // process player laser movement and behavior
         if (lasers.length > 0)
         {
             for (var i = 0; i < lasers.length; i++){
@@ -84,6 +85,11 @@ var Game = (function ()
                 }
             }
         }
+
+        // process enemy laser movement and behavior
+        enemyLaser.translateZ(enemyLaserSpeed);
+        if(enemyLaser.position.z > player.position.z + Globals.BaseSize * 2)
+            Enemies.ResetLaser();
     }
 
     function updateCanvas()
