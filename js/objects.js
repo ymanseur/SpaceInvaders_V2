@@ -186,12 +186,36 @@ var MainSpaceShip = (function ()
         return figure;
     }
 
+    function getFront()
+    {
+        return figure.position.z - 4 * baseSize;
+    }
+
+    function getBack()
+    {
+        return figure.position.z + 4 * baseSize;
+    }
+
+    function getLeft()
+    {
+        return figure.position.x - 6.5 * baseSize;
+    }
+
+    function getRight()
+    {
+        return figure.position.x + 6.5 * baseSize;
+    }
+
     return {
         Init: init,
         EnemyDestroyed: enemyDestroyed,
         Figure: getFigure,
+        GetBack: getBack,
+        GetFront: getFront,
         GetHealth: getHealth,
         GetLasers: getLasers,
+        GetLeft: getLeft,
+        GetRight: getRight,
         GetScore: getScore,
         RemoveLaser: removeLaser,
         ShootLaser: shootLaser,

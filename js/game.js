@@ -17,6 +17,11 @@ var Game = (function ()
     var enemyCounter = 0; // counter
     var level = 1; //start off in easy mode
 
+    // Variables declared after scene is set to avoid duplicate function calls
+    var player;
+    var playerFront;
+    var playerBack;
+
     // import globals
     var enemyCycleLength = Globals.EnemyCycleLength;
     var enemyLaserSpeed = Globals.EnemyLaserSpeed;
@@ -45,7 +50,6 @@ var Game = (function ()
         var moveLeft = Listeners.GetMoveLeft();
         var moveRight = Listeners.GetMoveRight();
         var edge = aspectRatio * 950 / 1920 * 100;
-        var player = MainSpaceShip.Figure();
         var lasers = MainSpaceShip.GetLasers();
         var enemyLaser = Enemies.GetLaser();
         var playerX = player.position.x;
@@ -88,7 +92,22 @@ var Game = (function ()
 
         // process enemy laser movement and behavior
         enemyLaser.translateZ(enemyLaserSpeed);
-        if(enemyLaser.position.z > player.position.z + Globals.BaseSize * 2)
+        var enemyLaserLocationX = enemyLaser.position.x;
+        var enemyLaserLocationZ = enemyLaser.position.z;
+        if(enemyLaserLocationZ < playerFront) // laser is in front of player
+        {
+            //Allow laser to keep travelling
+        }
+        else if (enemyLaserLocationZ >= playerFront && enemyLaserLocationZ <= playerBack)
+        {
+            if (enemyLaserLocationX > MainSpaceShip.GetLeft() && enemyLaserLocationX < MainSpaceShip.GetRight())
+            {
+                MainSpaceShip.TakeHit();
+                Enemies.ResetLaser();
+                updateUIVariables();
+            }
+        }
+        else // laser is behind player
             Enemies.ResetLaser();
     }
 
@@ -147,6 +166,11 @@ var Game = (function ()
         {
             scene.add(enemies[i]);
         }
+
+        // Init final global variables to avoid repeat function calls
+        player = MainSpaceShip.Figure();
+        playerFront = MainSpaceShip.GetFront();
+        playerBack = MainSpaceShip.GetBack();
     }
 
     function setScene()
