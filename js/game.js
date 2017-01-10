@@ -81,9 +81,19 @@ var Game = (function ()
         if (lasers.length > 0)
         {
             for (var i = 0; i < lasers.length; i++){
+                if (i === lasers.length) // avoid out of bounds errors
+                    break;
+                // move every laser forward
                 lasers[i].translateZ(-playerLaserSpeed);
+                // process if laser hit any enemies
+                if(Enemies.CheckHitBoxes(lasers[i].position.x, lasers[i].position.z))
+                {
+                    MainSpaceShip.RemoveLaser(i);
+                    MainSpaceShip.EnemyDestroyed();
+                    updateUIVariables();
+                }
                 // remove lasers that left the f.o.v.
-                if (lasers[i].position.z < -100)
+                else if (lasers[i].position.z < Enemies.GetEndOfFOV())
                 {
                     MainSpaceShip.RemoveLaser(i);
                 }
@@ -126,9 +136,14 @@ var Game = (function ()
 
     function updateUIVariables()
     {
+        var score = MainSpaceShip.GetScore();
         document.getElementById("health").innerHTML = MainSpaceShip.GetHealth();
-        document.getElementById("playerScore").innerHTML = MainSpaceShip.GetScore();
-        document.getElementById("highScore").innerHTML = highScore;
+        document.getElementById("playerScore").innerHTML = score;
+        if(score > highScore)
+        {
+            highScore = score;
+            document.getElementById("highScore").innerHTML = highScore;
+        }
         document.getElementById("currentLevel").innerHTML = level;
     }
 

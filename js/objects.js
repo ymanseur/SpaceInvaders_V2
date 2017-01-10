@@ -60,12 +60,14 @@ var MainSpaceShip = (function ()
 
         lightParts();
 
-        for (var i = 0; i < parts.length; i++)
+        var i;
+
+        for (i = 0; i < parts.length; i++)
         {
             figure.add(parts[i]);
         }
 
-        for (var i = 0; i < lights.length; i++)
+        for (i = 0; i < lights.length; i++)
         {
             figure.add(lights[i]);
         }
@@ -234,6 +236,9 @@ var Enemies = (function ()
         var enemySpeed;
         var frontRow; // 2D array of enemies where index [x][0] is in the front for column x
         var laser;
+        var zPositions; // array containing the Z-values of the front of each row of enemies
+        var height;
+        var width;
 
         function init()
         {
@@ -257,6 +262,9 @@ var Enemies = (function ()
             liveEnemies = [];
             enemySpeed = Globals.EnemySpeed;
             laser = new THREE.Object3D();
+            zPositions = new Array(5);
+            height = 7 * baseSize;
+            width = 10 * baseSize;
 
             frontRow = new Array(11);
             for (var i = 0; i < frontRow.length; i++)
@@ -294,6 +302,7 @@ var Enemies = (function ()
                     x++
                 }
                 x = 0;
+                zPositions[y] = enemies[i-1].position.z + height/2;
                 y++;
             }
         }
@@ -381,6 +390,7 @@ var Enemies = (function ()
                 var i = liveEnemies[j]; //actual index of enemy
                 enemies[i].translateZ(enemySpeed/3);
             }
+            updateZPositions(enemySpeed/3);
         }
 
         function moveBack()
@@ -389,6 +399,15 @@ var Enemies = (function ()
             {
                 var i = liveEnemies[j]; //actual index of enemy
                 enemies[i].translateZ(-enemySpeed/3);
+            }
+            updateZPositions(-enemySpeed/3);
+        }
+
+        function updateZPositions(delta)
+        {
+            for (var i = 0; i < zPositions.length; i++)
+            {
+                zPositions[i] += delta;
             }
         }
 
@@ -432,6 +451,49 @@ var Enemies = (function ()
             }
         }
 
+        function checkHitBoxes(xValue, zValue) // xzValue is location of player's laser
+        {
+            for(var i = 0; i < zPositions.length - 1; i++)
+            {
+                if(zValue <= zPositions[i] && zValue >= zPositions[i+1])
+                {
+                    if (enemyHit(i, xValue))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        // check next row
+                    }
+                }
+            }
+            if(zValue < zPositions[zPositions.length - 1])
+                return enemyHit(zPositions.length - 1, xValue);
+
+            return false;
+        }
+
+        function enemyHit(row, xValue)
+        {
+            // using row, we only check to see if a given row has been
+            // hit instead of cross-checking all 55 enemies at a time
+            for(var index = row * 11; index < row * 11 + 11; index++)
+            {
+                // check to see if enemy is alive
+                if(liveEnemies.indexOf(index) != -1)
+                {
+                    var left = enemies[index].position.x - width/2;
+                    var right = left + width;
+                    if (xValue >= left && xValue <= right)
+                    {
+                        destroyEnemy(index);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         function destroyEnemy(index)
         {
             Game.GetScene().remove(enemies[index]);
@@ -473,15 +535,19 @@ var Enemies = (function ()
             return laser;
         }
 
+        function getEndOfFOV()
+        {
+            return zPositions[zPositions.length - 1] - height;
+        }
+
         return {
-            DestroyEnemy: destroyEnemy,
+            CheckHitBoxes: checkHitBoxes,
             GetEnemies: getEnemies,
             GetLaser: getLaser,
-            Height: 7 * Globals.BaseSize,
+            GetEndOfFOV: getEndOfFOV,
             Mobilize: mobilize,
             Init: init,
-            ResetLaser: resetLaser,
-            Width: 10 * Globals.BaseSize
+            ResetLaser: resetLaser
         }
     })();
 
